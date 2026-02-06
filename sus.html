@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SUS Survey</title>
+
+<style>
+body {
+  font-family: Arial, sans-serif;
+  background: #f4f6f8;
+  padding: 20px;
+}
+.container {
+  max-width: 800px;
+  background: #fff;
+  margin: auto;
+  padding: 25px;
+  border-radius: 10px;
+}
+h1 { text-align: center; }
+.question { margin-bottom: 15px; }
+label { font-weight: bold; }
+.options label { font-weight: normal; margin-right: 10px; }
+button {
+  display: block;
+  margin: 20px auto;
+  padding: 12px 25px;
+  background: #2563eb;
+  color: #fff;
+  border: none;
+  border-radius: 8px;
+  font-size: 16px;
+  cursor: pointer;
+}
+</style>
+</head>
+
+<body>
+<div class="container">
+<h1>System Usability Scale</h1>
+<p>Silakan isi kuesioner berikut</p>
+
+<form id="susForm"></form>
+</div>
+
+<script>
+const questions = [
+ "Saya ingin sering menggunakan website ini",
+ "Website ini terasa rumit untuk digunakan",
+ "Website ini mudah digunakan",
+ "Saya membutuhkan bantuan teknis untuk menggunakan website ini",
+ "Fitur-fitur pada website ini terintegrasi dengan baik",
+ "Terlalu banyak ketidakkonsistenan pada website ini",
+ "Orang lain akan cepat memahami cara menggunakan website ini",
+ "Website ini terasa membingungkan",
+ "Saya merasa percaya diri menggunakan website ini",
+ "Saya harus belajar banyak sebelum bisa menggunakan website ini"
+];
+
+const form = document.getElementById("susForm");
+
+questions.forEach((q,i)=>{
+  form.innerHTML += `
+  <div class="question">
+    <label>${i+1}. ${q}</label><br>
+    ${[1,2,3,4,5].map(v=>`
+      <label><input type="radio" name="q${i}" value="${v}" required> ${v}</label>
+    `).join("")}
+  </div>`;
+});
+
+form.innerHTML += `<button type="submit">Kirim</button>`;
+
+form.addEventListener("submit", function(e){
+  e.preventDefault();
+  let score = 0;
+
+  for(let i=0;i<10;i++){
+    let val = parseInt(document.querySelector(`input[name="q${i}"]:checked`).value);
+    if((i+1)%2===1) score += (val-1);
+    else score += (5-val);
+  }
+
+  let finalScore = score * 2.5;
+
+  let kategori = finalScore < 50 ? "Buruk" :
+                 finalScore < 68 ? "Cukup" :
+                 finalScore < 80 ? "Baik" : "Sangat Baik";
+
+  fetch("PASTE_URL_SCRIPT_KAMU_DI_SINI", {
+    method: "POST",
+    body: new URLSearchParams({
+      skor: finalScore,
+      kategori: kategori
+    })
+  })
+  .then(()=> {
+    alert("Terima kasih, jawaban Anda telah disimpan.");
+    form.reset();
+  })
+  .catch(()=> alert("Gagal mengirim data"));
+});
+</script>
+
+</body>
+</html>

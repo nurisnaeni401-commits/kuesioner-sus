@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Dashboard Admin SUS</title>
+
+<style>
+body {
+  font-family: Arial, sans-serif;
+  margin: 0;
+}
+header {
+  background: #2563eb;
+  color: white;
+  padding: 15px;
+}
+iframe {
+  border: none;
+  width: 100%;
+  height: calc(100vh - 60px);
+}
+button {
+  float: right;
+  background: white;
+  color: #2563eb;
+  border: none;
+  padding: 6px 12px;
+  border-radius: 6px;
+  cursor: pointer;
+}
+</style>
+</head>
+
+<body>
+<header>
+  <strong>Dashboard Admin – SUS</strong>
+  <button onclick="logout()">Logout</button>
+</header>
+
+<!-- GANTI LINK DI BAWAH -->
+<iframe src="PASTE_LINK_GOOGLE_SHEET_EMBED_DI_SINI"></iframe>
+
+<script src="auth.js"></script>
+<script>
+  cekLogin();
+</script>
+</body>
+</html>
